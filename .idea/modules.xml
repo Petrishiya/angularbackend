@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/angularbackend.iml" filepath="$PROJECT_DIR$/.idea/angularbackend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/angularbackend.angularbackend.main.iml" filepath="$PROJECT_DIR$/.idea/modules/angularbackend.angularbackend.main.iml" />
     </modules>
   </component>
 </project>

@@ -3,7 +3,10 @@ package com.spring.angularbackend.controller;
 
 import com.spring.angularbackend.pojo.Task;
 import com.spring.angularbackend.service.TaskService;
+import com.spring.angularbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,7 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+    private UserService userService;
 
     @GetMapping("/getTasks")
     public List<Task> getAllTasks() {
@@ -23,13 +27,16 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-    @PostMapping("/createTasks")
-    public Task createTask(@RequestBody Task task) {
+    @PostMapping("/createTask")
+    public ResponseEntity<?> createTask(@RequestBody Task task) {
+        try {
+            Task createdTask = taskService.createTask(task);
+            return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
 
-
-        return taskService.saveTask(task);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
-
 
     @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
@@ -38,13 +45,15 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id) {
+    public void deleteTask(@PathVariable Long id)
+    {
         taskService.deleteTask(id);
     }
 
 
     @GetMapping("/assignees")
     public List<String> getAssignees() {
+        System.out.println("Assignees" + taskService.getAssignees());
         return taskService.getAssignees();
     }
 
@@ -57,4 +66,7 @@ public class TaskController {
     public List<String> getStatuses() {
         return taskService.getStatuses();
     }
+
+
+
 }
