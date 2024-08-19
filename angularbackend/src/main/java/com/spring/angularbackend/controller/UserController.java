@@ -57,7 +57,7 @@ public class UserController {
         }
     }*/
 
-/*    @PutMapping("/updateStatus/{id}")
+  /*@PutMapping("/updateStatus/{id}")
     public ResponseEntity<User> updateStatus(@PathVariable Long id, @RequestBody User.Status status) {
         Optional<User> userData = userRepository.findById(id);
 
@@ -68,20 +68,36 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-*/
+    }*/
 
     @GetMapping("/getAssigneesAndCreators")
     public List<String> getAssigneesAndCreators() {
         return userService.getAssigneesAndCreators();
     }
 
+    //For status change
     @PutMapping("/updateStatus/{userId}")
     public ResponseEntity<User> updateUserStatus(@PathVariable Long userId, @RequestBody Map<String, User.Status> request) {
         String status = request.get("status").toString();
-
-
         User updatedUser = userService.updateUserStatus(userId, User.Status.valueOf(status));
         return ResponseEntity.ok(updatedUser);
     }
+
+    //For name update
+
+    @PutMapping("/updateUsername/{id}")
+    public ResponseEntity<User> updateUsername(@PathVariable Long id, @RequestBody User updatedUser) {
+       System.out.println(userRepository.findById(id));
+        System.out.println("Received ID: " + id);  // Debugging log
+        System.out.println("Updated User: " + updatedUser);
+
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setName(updatedUser.getName()); // Only updating the name
+                    User savedUser = userRepository.save(user);
+                    return ResponseEntity.ok(savedUser);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

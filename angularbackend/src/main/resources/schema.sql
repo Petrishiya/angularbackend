@@ -1,9 +1,10 @@
-CREATE TABLE users (
-                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                       name VARCHAR(255) NOT NULL,
-                       email VARCHAR(255) NOT NULL,
-                       mobileNo VARCHAR(15) NOT NULL,
-                        status VARCHAR(10) NOT NULL
+
+                       CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mobileno BIGINT NOT NULL,
+    status VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE tasks (
